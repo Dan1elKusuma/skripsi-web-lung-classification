@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% set title %}Klasifikasi Citra X-ray Paru-paru{%endset%}
+{%set header%}Klasifikasi{% endset %}
+
+{%set content %}
+    <form action="/classify" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Masukkan Gambar(PNG, JPEG)</label>
+            <input class="form-control" name="image" type="file" id="formFile"accept=".png, .jpeg, .jpg" required>
+          </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {%if result%}
+    <div id="results" class="mt-5 py-1 border border-secondary rounded-2" style="background-color: #B4D4FF;">
+            <h2 class="text-center">Hasil Prediksi</h2>
+            <h3 class="text-center">{{result}}</h3>
+        </div>
+    {%endif%}
+{%endset%}
