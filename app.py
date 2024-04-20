@@ -86,30 +86,37 @@ def classify_image():
 def load_dataset():
     dataset_type = request.args.get("data")
 
-    list_html=""
+    list_html = """<div class="accordion" id="accordionExample">"""
     file_path = os.path.dirname(__file__)
-    base_path = os.path.join(file_path, 'static', 'dataset', dataset_type)
+    base_path = os.path.join(file_path, 'static', 'dataset2', dataset_type)
 
-    
     for condition in conditions:
         path = os.path.join(base_path, condition)
-        base_img_src = f"static/dataset/{dataset_type}/{condition}/"
+        base_img_src = f"static/dataset2/{dataset_type}/{condition}/"
         
-        list_html+=f"""
-            <h1>{condition}</h1>
-            <div class="row row-cols-auto">
-        """
+
+        list_html += f"""
+        <div class="accordion-item" style="width:100%;">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{"collapse" + str(conditions.index(condition))}" aria-expanded="false" aria-controls="{"collapse" + str(conditions.index(condition))}">
+                    {condition}
+                </button>
+            </h2>
+            <div id="{"collapse"+ str(conditions.index(condition))}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="row row-cols-auto">
+        """        
 
         for file_name in os.listdir(path):
-            image_path = os.path.join(path, file_name)
             img_src = base_img_src+file_name
             list_html+=f"""
             <div class="col">
                 <img src="{img_src}" class="img-thumbnail" alt="{file_name}" style="width:150px; height:150px;">
             </div>
             """
-        list_html+="</div>"
+        list_html+="</div></div></div>"
 
+    list_html+="</div>"
     return render_template("dataset.html", list_html=list_html)
 
 if __name__ == '__main__':
