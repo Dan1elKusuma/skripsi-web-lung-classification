@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 import cv2
 import os
+import random
 from tensorflow.keras.applications.vgg16 import decode_predictions
 
 app = Flask(__name__)
@@ -23,36 +24,50 @@ target_size = (224,224)
 def custom_preprocess_image(img):
     # Convert the image to a NumPy array
     img_array = np.array(img)
-    print("mulai preprocessing",img_array.shape)
 
     # Handle both RGB and grayscale images
     if len(img_array.shape) == 3:
-        print("masuk if")
         gray_image = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
-        print("gray if", gray_image.shape)
         gray_image = np.repeat(np.expand_dims(gray_image, axis=-1), 1, axis=-1)
     else:
         gray_image = img_array
         gray_image = np.repeat(np.expand_dims(img, axis=-1), 1, axis=-1)
 
     # Resize and normalize pixel values
-    print("shape", gray_image.shape)
     resized_image = cv2.resize(gray_image, target_size)
-    print("selesai resize")
     normalized_image = resized_image / 255.0
-
-    print("normal shape", normalized_image.shape)
 
     # Add batch dimension
     preprocessed_image = np.expand_dims(normalized_image, axis=0)
-    print("preproceseed shape", preprocessed_image.shape)
 
     return preprocessed_image
 
+def shuffle_images(predicted_condition = None):
+    imgs = []
+
+    file_path = os.path.dirname(__file__)
+    base_path = os.path.join(file_path, "static", "dataset2", "train")
+    condition = predicted_condition if predicted_condition else random.choice(conditions)
+
+    dataset_folder_path = os.path.join(base_path, condition)
+
+    list_imgs = os.listdir(dataset_folder_path)
+
+    if list_imgs:
+        imgs.append(random.choice(list_imgs))
+        imgs.append(random.choice(list_imgs))
+        imgs.append(random.choice(list_imgs))
+        imgs.append(random.choice(list_imgs))
+
+        for idx, value in enumerate(imgs, 0):
+            imgs[idx] = f"static/dataset2/train/{condition}/{value}"
+
+    return imgs
 
 @app.route('/')
 def index():
-    return render_template('classify.html')
+    imgs = shuffle_images()
+    return render_template('classify.html', imgs=imgs)
 
 @app.route('/classify', methods=['POST'])
 def classify_image():
@@ -72,7 +87,9 @@ def classify_image():
         predictions_labels = np.argmax(predictions)
         predictions_labels = conditions[predictions_labels]
 
-        return render_template("classify.html", result=predictions_labels)
+        imgs = shuffle_images(predictions_labels)
+
+        return render_template("classify.html", result=predictions_labels, imgs =imgs)
 
     except Exception as e:
         import traceback
