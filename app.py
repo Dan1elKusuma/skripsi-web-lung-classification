@@ -16,7 +16,7 @@ conditions = [
 ]
 
 # Load pre-trained VGG16 model
-model_path = './model/model224dataset550100epoch.h5'
+model_path = './model/best_model_95.h5'
 model = tf.keras.models.load_model(model_path)
 
 target_size = (224,224)
@@ -30,13 +30,13 @@ def custom_preprocess_image(img):
         print("masuk if")
         gray_image = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
         print("gray if", gray_image.shape)
-        gray_image = np.repeat(np.expand_dims(gray_image, axis=-1), 3, axis=-1)
+        gray_image = np.repeat(np.expand_dims(gray_image, axis=-1), 1, axis=-1)
     else:
         gray_image = img_array
-        gray_image = np.repeat(np.expand_dims(img, axis=-1), 3, axis=-1)
+        gray_image = np.repeat(np.expand_dims(img, axis=-1), 1, axis=-1)
 
     # Resize and normalize pixel values
-    print("mulai resize")
+    print("shape", gray_image.shape)
     resized_image = cv2.resize(gray_image, target_size)
     print("selesai resize")
     normalized_image = resized_image / 255.0
@@ -71,7 +71,6 @@ def classify_image():
         predictions = np.array(predictions)
         predictions_labels = np.argmax(predictions)
         predictions_labels = conditions[predictions_labels]
-
 
         return render_template("classify.html", result=predictions_labels)
 
