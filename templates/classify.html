@@ -13,6 +13,10 @@
             {%endif%}
           </div>
           <div class="col-6">
+            {%if upload_file_path%}
+            	<img src="{{upload_file_path}}" class="img-fluid img-thumbnail rounded d-block mx-auto my-4" alt="...">
+            {%endif%}
+
             <form action="/classify" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Masukkan Gambar(PNG, JPEG)</label>
@@ -27,6 +31,12 @@
                     <h2 class="text-center">Hasil Prediksi</h2>
                     <h3 class="text-center">{{result}}</h3>
                 </div>
+            {%endif%}
+
+            {%if validation_error%}
+				<div id="results" class="mt-5 py-3 border border-secondary rounded-2" style="background-color: #e55039;">
+					<p class="fw-bold text-center text-light my-auto">Pastikan file format berupa .jpg, .jpeg, dan .png</p>
+				</div>
             {%endif%}
           </div>
           <div class="col-3">

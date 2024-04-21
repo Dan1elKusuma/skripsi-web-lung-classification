@@ -5,7 +5,6 @@ import tensorflow as tf
 import cv2
 import os
 import random
-from tensorflow.keras.applications.vgg16 import decode_predictions
 
 app = Flask(__name__)
 
@@ -21,6 +20,18 @@ model_path = './model/best_model_95.h5'
 model = tf.keras.models.load_model(model_path)
 
 target_size = (224,224)
+
+def check_file_format(file):
+    allowed_extensions = ['jpg', 'png', 'jpeg']
+
+    file_format = '.' in file.filename and file.filename.rsplit('.', 1)[1].lower()
+
+    upload_file_path = f"./static/upload/upload.{file_format}"
+
+    file.save(upload_file_path)
+
+    return  file_format in allowed_extensions, upload_file_path
+
 def custom_preprocess_image(img):
     # Convert the image to a NumPy array
     img_array = np.array(img)
@@ -74,6 +85,14 @@ def classify_image():
     try:
         # Get the image file from the POST request
         image_file = request.files['image']
+
+        imgs = shuffle_images()
+
+        allowed_file, upload_file_path = check_file_format(image_file)
+        
+        if not allowed_file:
+            return render_template('classify.html', validation_error=True, imgs=imgs)
+        
         img = Image.open(image_file)
 
         # Preprocess the image
@@ -87,9 +106,7 @@ def classify_image():
         predictions_labels = np.argmax(predictions)
         predictions_labels = conditions[predictions_labels]
 
-        imgs = shuffle_images(predictions_labels)
-
-        return render_template("classify.html", result=predictions_labels, imgs =imgs)
+        return render_template("classify.html", result=predictions_labels, imgs =imgs, upload_file_path= upload_file_path)
 
     except Exception as e:
         import traceback
@@ -134,6 +151,10 @@ def load_dataset():
 
     list_html+="</div>"
     return render_template("dataset.html", list_html=list_html)
+
+@app.route("/accuracy")
+def load_accuracy():
+    return render_template("accuracy.html")
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
