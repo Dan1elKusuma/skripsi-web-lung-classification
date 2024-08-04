@@ -16,7 +16,7 @@ conditions = [
 ]
 
 # Load pre-trained VGG16 model
-model_path = './model/best_model_95.h5'
+model_path = './model/best_model5.h5'
 model = tf.keras.models.load_model(model_path)
 
 target_size = (224,224)
@@ -57,7 +57,7 @@ def shuffle_images(predicted_condition = None):
     imgs = []
 
     file_path = os.path.dirname(__file__)
-    base_path = os.path.join(file_path, "static", "dataset2", "train")
+    base_path = os.path.join(file_path, "static", "dataset", "train")
     condition = predicted_condition if predicted_condition else random.choice(conditions)
 
     dataset_folder_path = os.path.join(base_path, condition)
@@ -71,7 +71,7 @@ def shuffle_images(predicted_condition = None):
         imgs.append(random.choice(list_imgs))
 
         for idx, value in enumerate(imgs, 0):
-            imgs[idx] = f"static/dataset2/train/{condition}/{value}"
+            imgs[idx] = f"static/dataset/train/{condition}/{value}"
 
     return imgs
 
@@ -86,11 +86,10 @@ def classify_image():
         # Get the image file from the POST request
         image_file = request.files['image']
 
-        imgs = shuffle_images()
-
         allowed_file, upload_file_path = check_file_format(image_file)
         
         if not allowed_file:
+            imgs = shuffle_images()
             return render_template('classify.html', validation_error=True, imgs=imgs)
         
         img = Image.open(image_file)
@@ -105,6 +104,8 @@ def classify_image():
         predictions = np.array(predictions)
         predictions_labels = np.argmax(predictions)
         predictions_labels = conditions[predictions_labels]
+
+        imgs = shuffle_images(predictions_labels)
 
         return render_template("classify.html", result=predictions_labels, imgs =imgs, upload_file_path= upload_file_path)
 
@@ -121,11 +122,11 @@ def load_dataset():
 
     list_html = """<div class="accordion" id="accordionExample">"""
     file_path = os.path.dirname(__file__)
-    base_path = os.path.join(file_path, 'static', 'dataset2', dataset_type)
+    base_path = os.path.join(file_path, 'static', 'dataset', dataset_type)
 
     for condition in conditions:
         path = os.path.join(base_path, condition)
-        base_img_src = f"static/dataset2/{dataset_type}/{condition}/"
+        base_img_src = f"static/dataset/{dataset_type}/{condition}/"
         
 
         list_html += f"""

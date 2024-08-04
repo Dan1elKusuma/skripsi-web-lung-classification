@@ -1,0 +1,14 @@
+Kebutuhan library
+Flask = pip install Flask
+PIL = pip install pillow
+tensorflow = pip install tensorflow
+cv2 = pip install opencv-python
+numpy = pip install numpy
+
+
+Langkah menjalankan aplikasi
+1. Install library yang dibutuhkan
+2. Unzip file python
+3. Buka terminal bedasarkan direktori file hasil unzip
+4. Jalankan perintah "python app.py"
+5. Buka browser dan akses 127.0.0.1:8000 atau localhost:8000
