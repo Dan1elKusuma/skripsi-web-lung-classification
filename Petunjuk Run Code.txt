@@ -9,8 +9,9 @@ numpy = pip install numpy
 
 Langkah menjalankan program website
 1. Install library yang dibutuhkan
-2. Download dataset di https://drive.google.com/drive/folders/17wt1SYhNlkwwnxbB85fetsmy4wwkkyGx?usp=sharing
+2. Download dataset dan model di https://drive.google.com/drive/folders/17wt1SYhNlkwwnxbB85fetsmy4wwkkyGx?usp=sharing
 3. Unzip file dataset
-4. pindahkan dataset ke path "static"
-5. Jalankan perintah di terminal "python app.py"
-6. Buka browser dan akses 127.0.0.1:8000 atau localhost:8000
+4. pindahkan dataset ke path "static/"
+5. pindahkan file model ke path "model/"
+6. Jalankan perintah di terminal "python app.py"
+7. Buka browser dan akses 127.0.0.1:8000 atau localhost:8000
