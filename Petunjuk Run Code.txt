@@ -7,11 +7,25 @@ tensorflow = pip install tensorflow
 cv2 = pip install opencv-python
 numpy = pip install numpy
 
+Kebutuhan library untuk membuat model
+matplotlib = pip install matplotlib
+numpy = pip install numpy
+tensorflow = pip install tensorflow
+sklearn = pip install scikit-learn
+seaborn = pip install seaborn
+
 Langkah menjalankan program website
 1. Install library yang dibutuhkan
 2. Download dataset dan model di https://drive.google.com/drive/folders/17wt1SYhNlkwwnxbB85fetsmy4wwkkyGx?usp=sharing
 3. Unzip file dataset
 4. pindahkan dataset ke path "static/"
-5. pindahkan file model ke path "model/"
+5. buat folder baru bernama "model" dan letakkan file model didalamnya
 6. Jalankan perintah di terminal "python app.py"
 7. Buka browser dan akses 127.0.0.1:8000 atau localhost:8000
+
+Langkah menjalankan code membuat model
+1. Install libary yang dibutuhkan
+2. Path file untuk membuat model berada di "static/dataset/Create Model"
+3. Buka file "Create Model.ipynb" menggunakan Visual Studio Code
+4. Pastikan Visual Studio Code sudah terinstall ekstensi Jupyter
+5. Pastikan folder dataset sudah ada (lihat langkah menjalankan program website No.4)
