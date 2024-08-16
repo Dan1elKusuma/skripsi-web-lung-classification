@@ -1,14 +1,16 @@
-Kebutuhan library
+versi python 3.11.9
+
+Kebutuhan library untuk website
 Flask = pip install Flask
 PIL = pip install pillow
 tensorflow = pip install tensorflow
 cv2 = pip install opencv-python
 numpy = pip install numpy
 
-
-Langkah menjalankan aplikasi
+Langkah menjalankan program website
 1. Install library yang dibutuhkan
-2. Unzip file python
-3. Buka terminal bedasarkan direktori file hasil unzip
-4. Jalankan perintah "python app.py"
-5. Buka browser dan akses 127.0.0.1:8000 atau localhost:8000
+2. Download dataset di https://drive.google.com/drive/folders/17wt1SYhNlkwwnxbB85fetsmy4wwkkyGx?usp=sharing
+3. Unzip file dataset
+4. pindahkan dataset ke path "static"
+5. Jalankan perintah di terminal "python app.py"
+6. Buka browser dan akses 127.0.0.1:8000 atau localhost:8000
